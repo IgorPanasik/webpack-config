@@ -4,7 +4,7 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import HtmlWebpackPlugin from "html-webpack-plugin"; // Плагин, который позволяет динамически встраивать скрипт из bundle из сборки в путь <script src="./build/main.3d71215f3f9223c6035f"></script>
 import MiniCssExtractPlugin from "mini-css-extract-plugin"; // Плагин для отдельного файла css в папке build
 import path from "path";
-import { Configuration, DefinePlugin } from "webpack";
+import webpack, { DefinePlugin } from "webpack";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import { BuildOptions } from "./types/types";
 
@@ -13,12 +13,12 @@ export function buildPlugins({
 	paths,
 	analyzer,
 	platform,
-}: BuildOptions): Configuration["plugins"] {
+}: BuildOptions):  webpack.WebpackPluginInstance[] {
 	const isDev = mode === "development";
 	const isProd = mode === "production";
 	// Режим сборки DEVELOPMENT и PRODUCTION в DEV моде код будет не оптимизирован и нужен только на стадии разработки PROD - оптимизированный, сжатый, лаконичный
 
-	const plugins: Configuration["plugins"] = [
+	const plugins:  webpack.WebpackPluginInstance[] = [
 		new HtmlWebpackPlugin({
 			template: paths.html,
 			favicon: path.resolve(path.resolve(paths.public, "favicon.ico")),
